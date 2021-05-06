@@ -1,7 +1,5 @@
 var config = {
-    paths: [
-    	"/desk-content/2021.yml"
-    ]
+    path: "/desk-content/posts.yml"
 };
 
 export default config;

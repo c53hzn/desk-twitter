@@ -1,33 +1,53 @@
 <template>
-  <div class="resume-wrap main-content" v-if="posts.length">
-    <DeskPost 
-    author="Jenny Zhenni HOU" 
-    v-for="(post,i) in posts" 
-    :key="post.id"
-    :id="post.id" :time="post.time" :content="post.content"
-    ></DeskPost>
-  </div>
+  <div class="desk-wrap">
+    <main class="desk-main">
+      <div class="banner main-color">
+        <div class="upper">
+          <span class="left"></span>
+          <span>&nbsp;&nbsp;FROM THE DESK OF&nbsp;&nbsp;</span>
+          <span class="right"></span>
+        </div>
+        <div class="lower">
+          ZHENNI J. HOU
+        </div>
+      </div>
+      <DeskPost 
+      url="https://www.houzhenni.com/desk"
+      author="Zhenni J. HOU" 
+      v-for="(post) in posts" 
+      :key="post.id"
+      :id="post.id" :time="post.time" :content="post.content"
+      :picture="post.picture"
+      ></DeskPost>
+    </main>
+    <aside class="desk-side">
+      <div class="main-color" id="my-info">
+        <div class="silver-bg"></div>
+        <div class="pic">
+          <img src="https://www.houzhenni.com/img/mypic.png">
+        </div>
+        <div class="intro">
+          自学前端开发，专业电商运营，熟练掌握 PS 和 Excel 的 72 种用法，欢迎来我的小站玩耍~
+        </div>
+      </div>
+      <div class="support main-color-bg">
+        <a target="_blank" href="https://afdian.net/@c53hzn">支持我</a>
+      </div>
+    </aside>
+  </div>    
 </template>
 
 <script>
 import getDesk from './getdesk';
 import config from './desk.config';
 import yaml from "yaml";
-import DeskPost from "./components/desk-post.vue";
+import DeskPost from "./components/Desk-Post.vue";
 
 export default {
 	name: "desk",
 	data() {
 		return {
-      posts: [
-        {
-          id: "",
-          date: "",
-          content: [
-            ""
-          ]
-        }
-      ]
+      posts: []
 		};
   },
 	mounted() {
@@ -36,26 +56,12 @@ export default {
 	components: {
     DeskPost
 	},
-  computed: {
-    // myPosts() {
-    //   console.log(this.posts)
-    //   return this.posts;
-    // }
-  },
   methods: {
   	loadPosts() {
   		var that = this;
-      var paths = config.paths;
-      var reqArr = [];
-      for (let i = 0; i < paths.length; i++) {
-        reqArr.push(getDesk(paths[i]));
-      }
-		  Promise.all(reqArr).then(arr=>{
-        for (let m = 0; m < arr.length; m++) {
-          arr[m] = yaml.parse(arr[m]);
-        }
-        that.posts = arr;
-		  });
+      getDesk(config.path).then(a=>{
+        that.posts = yaml.parse(a).reverse();
+      });
   	}
   }
 };
@@ -65,45 +71,132 @@ export default {
 * {
 	box-sizing: border-box;
 }
-.main-content {
-  margin: 20px auto;
-  padding: 20px 40px;
-  width: 1080px;
-  min-height: calc(100vh - 189px);
-  background: white;
-  border: 1px solid silver;
-  border-radius: 5px;
+.main-color {
+  color: #182b54;
+  border-color: #182b54;
 }
-@media (max-width: 1080px) {
-	.main-content {
-    margin: 0px;
-    padding: 10px;
-    width: auto;
-    min-height: calc(100vh - 112px);
-    border: none;
-    border-radius: 0px;
-	}   
+.main-color-bg {
+  background: #182b54;
 }
-.resume-wrap {
+.desk-wrap {
+  margin: 10px auto;
+  padding: 10px 0px;
+  width: 800px;
+  min-height: calc(100vh - 169px);
+  display: flex;
+  justify-content: space-between;
+}
+.desk-main {
+  margin: 0px 10px 10px 0px;
+  flex-grow: 1;
+}
+.desk-side {
+  margin: 200px 0px 10px 20px;
+  width: 200px;
+}
+.desk-main .banner {
+  margin: 40px auto;
+  width: 480px;
+  text-align: center;
+  font-weight: bold;
+}
+.desk-main .banner .upper {
+  font-size: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.desk-main .banner .upper .left {
+  border-top: 8px solid;
+  border-left: 8px solid;
+  border-top-left-radius: 8px;
+  flex-grow: 1;
+  transform: translateY(12px);
+}
+.desk-main .banner .upper .right {
+  border-top: 8px solid;
+  border-right: 8px solid;
+  border-top-right-radius: 8px;
+  flex-grow: 1;
+  transform: translateY(12px);
+}
+.desk-main .banner .lower {
+  padding: 10px;
+  font-size: 40px;
+  border-left: 8px solid;
+  border-right: 8px solid;
+  border-bottom: 8px solid;
+}
+
+#my-info {
   position: relative;
 }
-.changeBtnOuter {
-  margin-bottom: 10px;
-  display: flex;
+#my-info .silver-bg {
+  position: absolute;
+  top: 100px;
+  width: 200px;
+  height: 100px;
+  background: rgba(192,192,192,0.4);
+  z-index: -1;
 }
-.changeBtns {
-  flex:1 1 auto;
+#my-info:hover {
+  border-color: black;
 }
-.changeBtns select {
-	height: 20px;
+#my-info .pic {
+  width: 200px;
+  height: 200px;
+  padding: 4px;
+  background: white;
+  border:1px solid;
+  border-radius: 100%;
 }
-.changeBtnOuter button {
-	border-radius: 0px;
+#my-info .pic img {
+  width: 100%;
+  display: block;
 }
-.changeBtn {
-  margin-right: 5px;
+#my-info .intro {
+  padding: 16px 10px;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: justify;
+  background: rgba(192,192,192,0.4);
 }
-.align-right {
-  text-align: right;
+.desk-side .support {
+  text-align: center;
+}
+.desk-side .support a {
+  padding: 10px 0px;
+  text-decoration: none;
+  color: white;
+  display: block;
+}
+
+@media all and (max-width: 1024px) {
+  .desk-wrap {
+    width: 800px;
+  }
+}
+@media all and (max-width: 768px) {
+  .desk-wrap {
+    padding: 10px;
+    width: 100%;
+  }
+  .desk-main .banner {
+    margin: 0px auto 20px auto;
+    width: 100%;
+    font-size: 18px;
+  }
+}
+@media all and (max-width: 425px) {
+  .desk-wrap {
+    flex-wrap: wrap;
+  }
+  .desk-main {
+    margin: 0px;
+    width: 100%;
+  }
+  .desk-side {
+    margin: 10px auto;
+    width: 100%;
+  }
 }
 </style>
