@@ -1,6 +1,11 @@
 <template>
-  <div class="resume-wrap main-content">
-
+  <div class="resume-wrap main-content" v-if="posts.length">
+    <DeskPost 
+    author="Jenny Zhenni HOU" 
+    v-for="(post,i) in posts" 
+    :key="post.id"
+    :id="post.id" :time="post.time" :content="post.content"
+    ></DeskPost>
   </div>
 </template>
 
@@ -8,21 +13,35 @@
 import getDesk from './getdesk';
 import config from './desk.config';
 import yaml from "yaml";
-// import DeskPost from "./components/desk-post.vue";
+import DeskPost from "./components/desk-post.vue";
 
 export default {
 	name: "desk",
 	data() {
 		return {
-      posts: []
+      posts: [
+        {
+          id: "",
+          date: "",
+          content: [
+            ""
+          ]
+        }
+      ]
 		};
   },
 	mounted() {
 		this.loadPosts();
 	},
 	components: {
-    // DeskPost
+    DeskPost
 	},
+  computed: {
+    // myPosts() {
+    //   console.log(this.posts)
+    //   return this.posts;
+    // }
+  },
   methods: {
   	loadPosts() {
   		var that = this;
@@ -33,10 +52,9 @@ export default {
       }
 		  Promise.all(reqArr).then(arr=>{
         for (let m = 0; m < arr.length; m++) {
-
-          let post = yaml.parse(arr[m]);
-          console.log(post)
+          arr[m] = yaml.parse(arr[m]);
         }
+        that.posts = arr;
 		  });
   	}
   }
