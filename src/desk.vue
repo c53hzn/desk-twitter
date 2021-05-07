@@ -198,5 +198,17 @@ export default {
     margin: 10px auto;
     width: 100%;
   }
+  #my-info {
+    background: rgba(192,192,192,0.4);
+  }
+  #my-info .silver-bg {
+    background: none;
+  }
+  #my-info .intro {
+    background: none;
+  }
+  #my-info .pic {
+    margin: 0px auto;
+  }
 }
 </style>

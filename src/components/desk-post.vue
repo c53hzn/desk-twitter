@@ -5,7 +5,7 @@
         <a target="_blank" :href="'https://www.facebook.com/sharer/sharer.php?u='+url"><i class="fa fa-facebook-f"></i></a>
       </div>
       <div class="media">
-        <a target="_blank" :href="'http://twitter.com/share&url='+url"><i class="fa fa-twitter"></i></a>
+        <a target="_blank" :href="'http://twitter.com/share?url='+url"><i class="fa fa-twitter"></i></a>
       </div>
       <div class="media heart" @click="redHeart" :class="{'txt-red':isRed}">
         <i class="fa fa-heart"></i>
