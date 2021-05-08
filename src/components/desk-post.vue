@@ -1,5 +1,5 @@
 <template>
-	<div class="desk-unit">
+  <div class="desk-unit">
     <div class="share main-color">
       <div class="media">
         <a target="_blank" :href="'https://www.facebook.com/sharer/sharer.php?u='+url"><i class="fa fa-facebook-f"></i></a>
@@ -11,7 +11,7 @@
         <i class="fa fa-heart"></i>
       </div>
     </div>
-    <div>
+    <div class="desk-unit-main">
       <div>
         <span class="author main-color">{{author}}</span>
         <span class="time">{{time}}</span>
@@ -21,8 +21,15 @@
           {{p}}
         </p>
       </div>
+      <div class="link" v-if="link">
+        <p v-for="(l,i) in link" :key="'link'+i">
+          <a target="_blank" :href="l.href">{{l.text}}<i class="fa fa-external-link"></i></a>
+        </p>
+      </div>
       <div class="picture" v-if="picture">
-        <div class="img" v-for="(pic,i) in picture" :key="'pic'+i">
+        <div class="img" 
+        :class="imgClass"
+        v-for="(pic,i) in picture" :key="'pic'+i">
           <img :src="pic">
         </div>
       </div>
@@ -33,8 +40,16 @@
 <script>
 export default {
   data() {
+    var imgClass = "";
+    if (this.picture) {
+      imgClass = this.picture.length==1?"col-1"
+      :this.picture.length==2?"col-2"
+      :this.picture.length==4?"col-2"
+      :"col-3"
+    }
     return {
-      isRed: false
+      isRed: false,
+      imgClass
     }
   },
   props: {
@@ -60,6 +75,9 @@ export default {
     },
     picture: {
       type: Array,
+    },
+    link: {
+      type: Array
     }
   },
   methods: {
@@ -77,18 +95,6 @@ export default {
   border-top: 2px solid rgba(192,192,192,0.4);
   display: flex;
   justify-content: flex-start;
-}
-.desk-unit .author {
-  padding: 16px 0px 16px 0px;
-  font-size: 24px;
-  font-weight: bold;
-}
-.desk-unit .time {
-  margin-left: 10px;
-  color: silver;
-}
-.desk-unit .content p {
-  text-align: justify;
 }
 .desk-unit .share {
   font-size: 24px;
@@ -113,28 +119,67 @@ export default {
 .desk-unit .media.heart {
   padding: 10px;
 }
+.desk-unit-main {
+  width: 100%;
+}
+.desk-unit .author {
+  padding: 16px 0px 16px 0px;
+  font-size: 24px;
+  font-weight: bold;
+}
+.desk-unit .time {
+  margin-left: 10px;
+  color: silver;
+}
+.desk-unit .content p {
+  text-align: justify;
+}
 .main-color {
   color: #182b54;
 }
 .txt-red {
   color: red;
 }
+/* 九宫格图片 */
 .desk-unit .picture {
   display: flex;
   flex-wrap: wrap;
 }
 .desk-unit .picture .img {
-  width: 33%;
-  padding: 4px;
+  height: 0px;
+  position: relative;
+  margin: 0px 10px 10px 0px;
+}
+.col-3 {
+  width: 30%;
+  padding-bottom: 30%;
+}
+.col-1 {
+  width: 60%;
+  padding-bottom: 60%;
+}
+.col-2 {
+  width: 40%;
+  padding-bottom: 40%;
 }
 .desk-unit .picture .img img {
+  position: absolute;
   width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
+/* 九宫格图片 */
 
 @media all and (max-width: 425px) {
+  .desk-unit .author {
+    font-size: 18px;
+  }
   .desk-unit .time {
     margin-left: 0px;
     display: block;
+  }
+  .desk-unit .picture .img {
+    margin: 0px 5px 5px 0px;
   }
 }
 </style>
