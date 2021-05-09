@@ -150,17 +150,22 @@ export default {
   position: relative;
   margin: 0px 10px 10px 0px;
 }
-.col-3 {
-  width: 30%;
-  padding-bottom: 30%;
+.desk-unit .picture .img {
+  height: 0px;
+  position: relative;
+  margin: 0px 10px 10px 0px;
 }
-.col-1 {
+.desk-unit .picture .col-1 {
   width: 60%;
   padding-bottom: 60%;
 }
-.col-2 {
+.desk-unit .picture .col-2 {
   width: 40%;
   padding-bottom: 40%;
+}
+.desk-unit .picture .col-3 {
+  width: 30%;
+  padding-bottom: 30%;
 }
 .desk-unit .picture .img img {
   position: absolute;
